@@ -31,4 +31,5 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   hevo_demo:
-      +materialized: table
+    example:
+      +materialized: view
