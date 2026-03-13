@@ -260,6 +260,41 @@ The repository includes a `.gitignore` file to prevent sensitive or generated fi
 
 ---
 
+# Challenges Faced
+
+### Local PostgreSQL Connectivity
+Initially, PostgreSQL was deployed locally using Docker. However, connecting a locally hosted database to Hevo Cloud was difficult because services running in the cloud cannot directly access databases on `localhost` or private network IPs.
+
+Multiple tunneling solutions such as **Ngrok, LocalTunnel, and Cloudflare Tunnel** were attempted to expose the local database, but they resulted in unstable connections.
+
+**Resolution:** PostgreSQL was deployed on an **AWS EC2 instance** with a public IP, allowing Hevo to connect directly without tunneling.
+
+### Docker Permission Issues
+While running Docker commands on EC2, permission errors occurred when accessing the Docker daemon.
+
+**Resolution:** Docker commands were executed using `sudo`.
+
+### dbt Environment Setup
+Initially, the `dbt` command was not recognized due to environment path issues.
+
+**Resolution:** The dbt installation was verified and executed using the correct Python environment.
+
+### Schema Reference Issues in dbt
+During the first dbt run, errors occurred because the transformation model referenced incorrect Snowflake schemas.
+
+**Resolution:** The dbt model was updated to reference the correct raw tables loaded by Hevo.
+
+---
+
+# Assumptions
+
+- The provided CSV files represent transactional data for customers, orders, and payments.
+- Each customer is uniquely identified by `customer_id`.
+- Orders represent purchase events and are linked to customers through `user_id`.
+- Customer lifetime value is calculated as the **sum of all payments made for the customer’s orders**.
+- The schema of the source tables remains consistent with the provided dataset.
+---
+
 # Repository Structure
 
 ```
