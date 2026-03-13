@@ -1,0 +1,13 @@
+# dbt build files
+target/
+dbt_packages/
+logs/
+
+# dbt credentials
+profiles.yml
+
+# python cache
+__pycache__/
+
+# environment files
+.env
